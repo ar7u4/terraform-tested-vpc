@@ -1,9 +1,16 @@
+variable "access_key" {
+    default = ""
+}
+variable "secret_key" {
+    default = ""
+}
+
 variable "aws_region" {
   default = "us-east-1"
 }
 
 variable "environment" {
-  default = "javatodev"
+  default = "EKS1"
 }
 
 variable "vpc_cidr" {
