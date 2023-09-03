@@ -8,15 +8,14 @@ pipeline{
         choice(name: 'action', choices: 'create\ndelete', description: 'Choose create/Destroy')
         string(name: 'aws_account_id', description: " AWS Account ID", defaultValue: '295134731113')
         string(name: 'Region', description: "Region of ECR", defaultValue: 'eu-west-1')
-        string(name: 'ECR_REPO_NAME', description: "name of the ECR", defaultValue: 'ar7u4')
-        string(name: 'cluster', description: "name of the EKS Cluster", defaultValue: 'demo-cluster1')
+        // string(name: 'ECR_REPO_NAME', description: "name of the ECR", defaultValue: 'ar7u4')
+        // string(name: 'cluster', description: "name of the EKS Cluster", defaultValue: 'demo-cluster1')
     }
     environment{
 
         ACCESS_KEY = credentials('AWS_ACCESS_KEY_ID')
         SECRET_KEY = credentials('AWS_SECRET_KEY_ID')
-        AWS_DEFAULT_REGION = 'eu-west-1'
-        ECR_REPO_URI = '295134731113.dkr.ecr.us-east-1.amazonaws.com/ar7u4'
+        // ECR_REPO_URI = '295134731113.dkr.ecr.us-east-1.amazonaws.com/ar7u4'
     }
     stages{
          
@@ -25,7 +24,7 @@ pipeline{
             steps{
             gitCheckout(
                 branch: "main",
-                url: "https://github.com/ar7u4/jenkins-pipeline-terraform-var.git"
+                url: "https://github.com/ar7u4/terraform-tested-vpc.git"
             )
             }
         }
@@ -34,7 +33,6 @@ pipeline{
             steps{
                 script{
 
-                    dir('eks_module') {
                       sh """
                           
                           terraform init 
@@ -42,7 +40,6 @@ pipeline{
                           terraform apply -var 'access_key=$ACCESS_KEY' -var 'secret_key=$SECRET_KEY' -var 'region=${params.Region}' --auto-approve 
                           
                       """
-                  }
                 }
             }
         }
@@ -88,4 +85,3 @@ pipeline{
     }
 }     
 
-                        //   
